@@ -67,6 +67,7 @@
 #include "recovery_utils/roots.h"
 #include "volclient.h"
 
+using android::fs_mgr::Fstab;
 using android::volmgr::VolumeManager;
 using android::volmgr::VolumeInfo;
 
@@ -227,6 +228,30 @@ int set_slot(Device* device) {
   }
   return ret.success ? 0 : 1;
 }
+
+std::string get_preferred_fs(Device* device) {
+  Fstab fstab;
+  auto read_fstab = ReadFstabFromFile("/etc/fstab", &fstab);
+  std::vector<std::string> headers{ "CHOOSE FILESYSTEM TO USE TO", "FORMAT DATA PARTITION" };
+  std::string fs = volume_for_mount_point("/data")->fs_type;
+  if (read_fstab) {
+      std::string current_filesystem = android::fs_mgr::GetEntryForPath(&fstab, "/data")->fs_type;
+      headers.emplace_back(" ");
+      headers.emplace_back("Current filesystem: " + current_filesystem);
+  }
+  std::vector<std::string> items = get_data_fs_items();
+
+  if (items.size() > 1) {
+      size_t chosen_item = device->GetUI()->ShowMenu(
+          headers, items, 0, true,
+          std::bind(&Device::HandleMenuKey, device, std::placeholders::_1, std::placeholders::_2));
+      if (chosen_item == Device::kGoBack)
+        return "";
+      fs = items[chosen_item];
+  }
+  return fs;
+}
+
 
 static bool ask_to_wipe_data(Device* device) {
   std::vector<std::string> headers{ "FORMAT USER DATA?", "This includes internal storage.", "THIS CANNOT BE UNDONE!" };
@@ -554,8 +579,11 @@ change_menu:
       case Device::WIPE_DATA:
         save_current_log = true;
         if (ui->IsTextVisible()) {
+          auto fs = get_preferred_fs(device);
+          if (fs == "")
+            break;
           if (ask_to_wipe_data(device)) {
-            WipeData(device);
+            WipeData(device, fs);
           }
         } else {
           WipeData(device);
