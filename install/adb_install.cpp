@@ -323,7 +323,7 @@ static void CreateMinadbdServiceAndExecuteCommands(
                               std::move(recovery_socket), std::ref(command_map));
 
   if (ui->IsTextVisible()) {
-    std::vector<std::string> headers{ rescue_mode ? "Rescue mode" : "ADB Sideload" };
+    std::vector<std::string> headers{ rescue_mode ? "RESCUE MODE" : "ADB SIDELOAD" };
     std::vector<std::string> entries{ "Cancel" };
     size_t chosen_item = ui->ShowMenu(
         headers, entries, 0, true,
