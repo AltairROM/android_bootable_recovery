@@ -31,15 +31,15 @@ typedef std::pair<std::string, Device::BuiltinAction> menu_action_t;
 
 static std::vector<std::string> g_main_header{};
 static std::vector<menu_action_t> g_main_actions{
-  { "Reboot system now", Device::REBOOT },
-  { "Apply update", Device::APPLY_UPDATE },
+  { "Reboot to system", Device::REBOOT },
+  { "Install package or apply update", Device::APPLY_UPDATE },
   { "Factory reset", Device::MENU_WIPE },
-  { "Advanced", Device::MENU_ADVANCED },
+  { "Advanced options", Device::MENU_ADVANCED },
 };
 
-static std::vector<std::string> g_advanced_header{ "Advanced options" };
+static std::vector<std::string> g_advanced_header{ "ADVANCED OPTIONS" };
 static std::vector<menu_action_t> g_advanced_actions{
-  { "Enter fastboot", Device::ENTER_FASTBOOT },
+  { "Enter fastboot mode", Device::ENTER_FASTBOOT },
   { "Reboot to bootloader", Device::REBOOT_BOOTLOADER },
   { "Reboot to recovery", Device::REBOOT_RECOVERY },
   { "Mount/unmount system", Device::MOUNT_SYSTEM },
@@ -47,13 +47,13 @@ static std::vector<menu_action_t> g_advanced_actions{
   { "Enable ADB", Device::ENABLE_ADB },
   { "Run graphics test", Device::RUN_GRAPHICS_TEST },
   { "Run locale test", Device::RUN_LOCALE_TEST },
-  { "Enter rescue", Device::ENTER_RESCUE },
+  { "Enter rescue mode", Device::ENTER_RESCUE },
   { "Power off", Device::SHUTDOWN },
 };
 
-static std::vector<std::string> g_wipe_header{ "Factory reset" };
+static std::vector<std::string> g_wipe_header{ "FACTORY RESET" };
 static std::vector<menu_action_t> g_wipe_actions{
-  { "Format data/factory reset", Device::WIPE_DATA },
+  { "Format data partition", Device::WIPE_DATA },
   { "Format cache partition", Device::WIPE_CACHE },
   { "Format system partition", Device::WIPE_SYSTEM },
 };
