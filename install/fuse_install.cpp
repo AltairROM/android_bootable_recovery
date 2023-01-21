@@ -87,7 +87,7 @@ static std::string BrowseDirectory(const std::string& path, Device* device, Reco
   // Append dirs to the entries list.
   entries.insert(entries.end(), dirs.begin(), dirs.end());
 
-  std::vector<std::string> headers{ "Choose a package to install:", path };
+  std::vector<std::string> headers{ "CHOOSE A PACKAGE TO INSTALL:", path };
 
   size_t chosen_item = 0;
   while (true) {
