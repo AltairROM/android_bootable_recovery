@@ -197,7 +197,7 @@ bool ask_to_continue_downgrade(Device* device) {
 }
 
 static bool ask_to_wipe_data(Device* device) {
-  std::vector<std::string> headers{ "Format user data?", "This includes internal storage.", "THIS CANNOT BE UNDONE!" };
+  std::vector<std::string> headers{ "FORMAT USER DATA?", "This includes internal storage.", "THIS CANNOT BE UNDONE!" };
   std::vector<std::string> items{ " Cancel", " Format data" };
 
   size_t chosen_item = device->GetUI()->ShowMenu(
@@ -209,7 +209,7 @@ static bool ask_to_wipe_data(Device* device) {
 
 static InstallResult apply_update_menu(Device* device, Device::BuiltinAction* reboot_action){
   RecoveryUI* ui = device->GetUI();
-  std::vector<std::string> headers{ "Apply update" };
+  std::vector<std::string> headers{ "INSTALL PACKAGE OR APPLY UPDATE" };
   std::vector<std::string> items;
 
   const int item_sideload = 0;
@@ -221,7 +221,7 @@ static InstallResult apply_update_menu(Device* device, Device::BuiltinAction* re
 
   for (;;) {
     items.clear();
-    items.push_back("Apply from ADB");
+    items.push_back("ADB sideload");
 
     if (InitializeVirtiofs()) {
       non_storage_items++;
@@ -336,7 +336,7 @@ static void choose_recovery_file(Device* device) {
 
   entries.push_back("Back");
 
-  std::vector<std::string> headers{ "Select file to view" };
+  std::vector<std::string> headers{ "SELECT FILE TO VIEW" };
 
   size_t chosen_item = 0;
   while (true) {
