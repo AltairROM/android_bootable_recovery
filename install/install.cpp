@@ -830,6 +830,7 @@ bool SetupPackageMount(const std::string& package_path, bool* should_use_fuse) {
       LOG(ERROR) << "Block map path " << package_path << " not canonical, abort installation.";
       return false;
     }
+
     // uncrypt only produces block map only if the package stays on /data.
     *should_use_fuse = false;
     return true;
