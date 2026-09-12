@@ -404,6 +404,7 @@ ScreenRecoveryUI::ScreenRecoveryUI()
       progressScopeSize(0),
       progress(0),
       pagesIdentical(false),
+      screen_dirty_(false),
       text_cols_(0),
       text_rows_(0),
       text_(nullptr),
@@ -932,6 +933,7 @@ void ScreenRecoveryUI::draw_battery_capacity_locked() {
 // Redraw everything on the screen and flip the screen (make it visible).
 // Should only be called with updateMutex locked.
 void ScreenRecoveryUI::update_screen_locked() {
+  screen_dirty_ = false;
   draw_screen_locked();
   gr_flip();
 }
@@ -939,6 +941,7 @@ void ScreenRecoveryUI::update_screen_locked() {
 // Updates only the progress bar, if possible, otherwise redraws the screen.
 // Should only be called with updateMutex locked.
 void ScreenRecoveryUI::update_progress_locked() {
+  screen_dirty_ = false;
   if (show_text || !pagesIdentical) {
     draw_screen_locked();  // Must redraw the whole screen
     pagesIdentical = true;
@@ -1045,6 +1048,8 @@ void ScreenRecoveryUI::ProgressThreadLoop() {
           redraw = true;
         }
       }
+
+      if (screen_dirty_) redraw = true;
 
       if (redraw) update_progress_locked();
     }
@@ -1299,7 +1304,7 @@ void ScreenRecoveryUI::SetProgress(float fraction) {
     float scale = width * progressScopeSize;
     if ((int)(progress * scale) != (int)(fraction * scale)) {
       progress = fraction;
-      update_progress_locked();
+      screen_dirty_ = true;
     }
   }
 }
