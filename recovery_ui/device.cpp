@@ -33,7 +33,7 @@ static std::vector<std::string> g_main_header{};
 static std::vector<menu_action_t> g_main_actions{
   { "Reboot to system", Device::REBOOT },
   { "Install package or apply update", Device::APPLY_UPDATE },
-  { "Factory reset", Device::MENU_WIPE },
+  { "Format partitions", Device::MENU_WIPE },
   { "Advanced options", Device::MENU_ADVANCED },
 };
 
@@ -52,10 +52,12 @@ static std::vector<menu_action_t> g_advanced_actions{
   { "Power off", Device::SHUTDOWN },
 };
 
-static std::vector<std::string> g_wipe_header{ "FACTORY RESET" };
+static std::vector<std::string> g_wipe_header{ "FORMAT PARTITIONS" };
 static std::vector<menu_action_t> g_wipe_actions{
   { "Format data partition", Device::WIPE_DATA },
+  { "Format data partition reset (f2fs)", Device::WIPE_DATA_F2FS },
   { "Format cache partition", Device::WIPE_CACHE },
+  { "Format cache partition (f2fs)", Device::WIPE_CACHE_F2FS },
   { "Format system partition", Device::WIPE_SYSTEM },
 };
 
